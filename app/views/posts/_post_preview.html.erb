@@ -1,0 +1,46 @@
+
+  <div class="card">
+    <img
+      src="https://mdbootstrap.com/img/new/standard/nature/184.jpg"
+      class="card-img-top"
+      alt="..."
+    />
+    <div class="card-body">
+      <h5 class="card-title font-weight-bolder"><%= post.title %></h5>
+      <p class="card-text">
+        <%= post.content %>
+      </p>
+      <%= link_to "Leer más", post, class:'btn btn-outline-danger'%>
+    </div>
+
+    <div class="m-0 py-0 card-body">
+    <% post.tags.each do |tag| %>
+        <span class="badge badge-dark mb-2 p-2">#<%= tag.name %></span>
+    <% end %>
+    </div>
+
+    <hr>
+    
+    <div class="card-body p-2 m-0">
+      <div class="d-inline-block float-left">
+        <%= image_tag post.author.thumbnail if post.author_has_avatar? %>
+      </div>
+
+      <div class="d-inline-block ml-2">
+        <div>
+          <p class="card-text m-0 font-weight-bolder"><%= post.author.name  %></p>
+          <p class="card-text"><small class="text-muted">Creado el <%= %><%= post.created_at.strftime('%d-%m-%Y a las %H:%M') %></small> </p>
+        </div>
+        <div class="d-flex">
+          <div class="mr-3">
+            <i data-toggle="tooltip" data-placement="top" title="Comentarios" class="far fa-comments"></i>
+            <span><%= post.comments.size %></span>
+          </div>
+          <div>
+            <i data-toggle="tooltip" data-placement="top" title="Boost!" class="fas fa-rocket"></i>
+            <span><%= post.boosts.size %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

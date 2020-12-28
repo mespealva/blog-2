@@ -1,0 +1,77 @@
+<p id="notice"><%= notice %></p>
+<div class="card text-dark border-dark mb-3 ml-5 text-center" style="max-width: 90vw;">
+  <div class="card-header "><h3> <%= @post.title %></h3></div>
+  
+    <div class="card-body">
+      <p class="card-text"> <%= @post.author.name %>
+        <div >
+          <%= image_tag @post.author.profile, :class => "avatar" if @post.author.has_avatar? %>
+        </div>
+      </p>
+      <h5 class="card-title"><%= @post.content.body %></h5>
+    </div>
+  </div>
+</div>
+ <strong>Tags:</strong>
+ <%#= @post.all_tags%>
+ <% @post.tags.each do |tag| %>
+        <span class="badge badge-dark mb-2 p-2">#<%= tag.name %></span>
+  <% end %>
+</p>
+
+
+<%= social_share_button_tag(@post.title) %>
+<%#= social_share_button_tag('Share to Facebook', :url => post_path(@post), desc: @post.content) %>
+<small class="text-muted"> Este post fue creado el: <%= @post.created_at.strftime('%d-%m-%Y %H:%M') %> </small><br>
+
+<h3 class="text-center mt-5">Comentarios</h3>
+<% if user_signed_in? || author_signed_in? %>
+  <div class=" form-group border-dark mt-5 mb-5 ml-5" style="max-width: 90vw;">
+    <%= form_with(model: @comment, local: true) do |form| %>
+
+      <div class="field form-group text-md-center">
+       
+        <%= form.text_area :content, placeholder: "Deja tu comentario aquí!", class:"form-group  col-md-10", :required => true %>
+      </div>
+
+      <div class="field form-group text-md-center">
+        <%= form.hidden_field :post_id, value: @post.id %>
+      </div>
+
+      <div class="actions form-group text-md-center">
+        <button type="submit" class="btn btn-success">Enviar</button>
+      </div>
+    <% end %>
+  </div>
+<%end%>
+<% @post.ordered_comments.each do |comment|%>
+  <div class="card text-success border-success mb-3 ml-5 text-center" style="max-width: 90vw;">
+    <div class="row g-0">
+      <div class="card col-md-3">
+        <div class="card-header"><%= comment.owner.name %></div>
+        <div class="card-body"><%= image_tag comment.owner.comment_avatar, :class => "avatar" if comment.owner.has_avatar? %> </div>
+        <div class="card-footer text-muted"><small ><p><%= comment.created_at.strftime('%d-%m-%Y %H:%M') %></small></p></div>
+      </div>
+      <div class="card col-md-9">
+        <div class="card-body">
+          <h5><%= comment.content %></h5>
+        </div>
+        <div class="card-footer text-muted">
+          <% if user_signed_in? && comment.owner_id == current_user.id || author_signed_in? && comment.owner_id == current_author.id%>
+          <small><p><%= link_to ' Editar', edit_comment_path(comment) %> | <%= link_to ' Borrar Comentario', comment, method: :delete, data: { confirm: 'Estás seguro?' } %>
+          </small></p>
+          <%end%>
+        </div>  
+      </div>
+    </div>
+  </div>
+<%end%>
+<br>
+<div>
+  <% if author_signed_in? %>
+    <%= link_to 'Edit', edit_post_path(@post) %> <br>
+  <%end%>
+</div>
+<div>
+  <%= link_to 'Inicio', root_path %>
+</div>

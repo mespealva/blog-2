@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+<h1>Team Rocket CL</h1>
+
+<h1>Posts más recientes</h1>
+
+<div class="container card-columns">
+  <% @posts.each do |post| %>
+    <%= render 'post_preview', post: post  %>
+  <% end %>
+</div>
+
+<br>
+<%if current_author%>
+  <%= link_to 'New Post', new_post_path %>
+<%end%>

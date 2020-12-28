@@ -1,0 +1,18 @@
+
+<% if author.instagram_url != nil %>
+  <%= link_to "https://#{author.instagram_url}", target:'_blank', class:'text-danger' do %>
+    <i class="fa-3x fab fa-instagram-square"></i>
+  <% end %>
+<% end %>
+
+<% if author.github_url != nil%>
+  <%= link_to "https://#{author.github_url}",target:'_blank', class:"text-dark" do%>
+    <i class="fa-3x fab fa-github-square"></i>
+  <% end %>
+<% end %>
+
+<% if author.twitter_url != nil %>
+  <%= link_to "https://#{author.twitter_url}", class:'text-primary', target:'_blank' do%>
+    <i class="fa-3x fab fa-twitter-square"></i>
+  <% end %>
+<% end %>

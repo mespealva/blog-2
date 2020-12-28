@@ -1,0 +1,26 @@
+
+<div id="hero-section" class="mt-5 text-dark text-light d-flex justify-content-center p-5 h-50"> 
+  <div class="jumbotron align-self-center text-center">
+    <div>
+      <%= image_tag @author.profile, :class => "avatar" if @author.has_avatar? %>
+    </div>
+    <h1 class="display-2"><%= @author.name %></h1>
+    <%= render 'profiles/shared/links', author: @author %>
+    <p>Elit ipsum ipsum a magnam nisi At eligendi reprehenderit obcaecati ea aspernatur. Voluptate adipisci blanditiis!</p>
+    <% if current_author == @author %>
+    <%= link_to "Editar perfil", edit_author_registration_path, class:'btn btn-outline-dark btn-lg' %>
+  <% end %>
+  </div>
+</div>
+
+<section class="mt-4 container p-5">
+
+  <div class="row mx-auto">
+
+    <div class="col-12">
+      <h2 class="font-weight-bolder text-center display-4 mb-5">Recent posts</h2>
+    </div>
+      <%= render 'shared/cards', posts: @posts%>
+  </div>
+</section>
+

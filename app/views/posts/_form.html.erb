@@ -1,0 +1,78 @@
+<%= form_with(model: post, local: true) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<div class="row container">
+  <div class="col-4">
+    <h6>Estado: <%=@post.published ? "Publicado" : "Borrador" %></h6>
+    <%unless @post.id.nil?%>
+    <% unless @post.published %>
+        <%= link_to "Publicar", published_path(@post), method: :put, class: 'btn btn-primary btn-block'%>
+    <%end%>
+    <%= link_to 'Show', @post, class: 'btn btn-info' %>
+    <%= link_to 'Borrar', post_path(@post), method: :delete, class: 'btn btn-danger', data: { confirm: "Estas segura?" }%>
+    <%end%>
+    <%= link_to 'Back', root_path, class: 'btn btn-info' %>
+    <div class="form-group">
+      <div class="mt-1">
+        <% if post.images.attached? %>
+          <span>Imagenes del post:</span>
+          <%post.images.each do |image|%>
+            <%= image_tag image, width: '50%', id: "thumbnil" %>
+          <%end%>
+        <%else%>
+      <div class="form-group">
+        <%= form.label :images %>
+        <%= form.file_field :images, multiple: true, :input_html => {:onchange => "showMyImage(this)"} %> 
+      </div>
+      <%end%>  
+      </div>
+    </div>
+  </div>
+  <div class="col-8">
+    <div class="form-group">
+      <%= form.label :title %>
+      <%= form.text_field :title %>
+    </div>
+
+    <div class="form-group">
+      <div class="mt-1">
+        <% if post.main.present? %>
+          <small>Imagen de cabecera:</small>
+          <%= image_tag(post.main, width: '50%') %>
+        <%end%>
+        <div class="form-group">
+          <%= form.label :main %>
+          <%= form.file_field :main %> 
+        </div>  
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :content %>
+      <%= form.rich_text_area :content %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :Tags %> 
+      <%= form.text_field :all_tags %>
+    </div>
+
+  
+  </div>
+</div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+  
+  <% end %>
+  
